@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <title>Database Test Button</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+    <script src="static/addchar.js"></script>
+  </head>
+
+  <body>
+
+  </body>
+  
+</html>

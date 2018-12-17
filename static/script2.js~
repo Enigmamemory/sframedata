@@ -1,0 +1,25 @@
+$(function() {
+
+    var shownames = document.getElementById("shownames")
+    
+    $('button').click(function() {
+        $.ajax({
+            url: '/DBtestButton',
+            type: 'GET',
+            success: function(response) {
+                console.log(response);
+		updatenames(response.names);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    function updatenames(names) {
+	shownames.innerHTML = names;
+    }
+    
+});
+
+
