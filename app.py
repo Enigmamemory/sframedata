@@ -172,6 +172,10 @@ def DBtestButton():
 def addchar_load():
     return render_template("addchar.html")
 
+@app.route('/addmove/')
+def addmove_load():
+    return render_template("addmove.html")
+
 @app.route('/addchar/add/', methods=["POST"])
 def addchar():
     charinfo = request.form
@@ -184,6 +188,19 @@ def addchar():
     chars.insert_one(post)
 
     return jsonify(charinfo)
+
+@app.route('/addmove/add/', methods=["POST"])
+def addmove():
+    moveinfo = request.form
+    post = {}
+    for info in moveinfo:
+        print(info)
+        print(moveinfo[info])
+        post[info] = moveinfo[info]
+
+    moves.insert_one(post)
+
+    return jsonify(moveinfo)
 
 @app.route('/editchar/', methods=["GET","POST"])
 def editchar_load():

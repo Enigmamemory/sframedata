@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <title>Add a Character</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+    <script type="text/javascript" src="/static/addchar.js"></script>
+  </head>
+
+  <body>
+
+    <div>
+      <form id="addchar" method="post">
+
+	<input name="name" class="form-control" placeholder="Name">
+	<br>
+	<br>
+        <input name="health" class="form-control" placeholder="Health">
+	
+      </form>
+
+      <br>
+      <br>
+
+      <button id="addconfirm">Add Character</button>
+
+    </div>
+    
+  </body>
+  
+</html>
