@@ -96,8 +96,8 @@ $(function() {
     });
 
     function showstats(stats){
-	var keys = Object.keys(stats)
-	var values = Object.values(stats)
+	var keys = Object.keys(stats);
+	var values = Object.values(stats);
 	$('#showstats').empty();
 	for (var i = 0; i < keys.length; i++) {
 	    console.log(keys[i] + ": " + values[i]);
@@ -111,8 +111,8 @@ $(function() {
     }
 
     function showstats2(stats){
-	var keys = Object.keys(stats)
-	var values = Object.values(stats)
+	var keys = Object.keys(stats);
+	var values = Object.values(stats);
 	$('#showstats2').empty();
 	for (var i = 0; i < keys.length; i++) {
 	    console.log(keys[i] + ": " + values[i]);

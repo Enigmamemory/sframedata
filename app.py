@@ -64,7 +64,7 @@ def getTwo():
 @app.route("/DBtestLoad", methods=['GET'])
 def DBtestLoad():
     #finds the names of all entries
-    alldudes = chars.find(None,{"_id":0})
+    alldudes = chars.find(None,{"_id":0}).sort("name")
 
     namelist = []
     
@@ -122,6 +122,39 @@ def addchar():
 
     return jsonify(charinfo)
 
+@app.route('/editchar/', methods=["GET","POST"])
+def editchar_load():
+    return render_template("editchar.html")
+
+@app.route('/editchoose/', methods=["POST"])
+def editchoose():
+    print(request)
+
+    test = request.form
+    name = test['undefined']
+    
+    print(test)
+    print(name)
+
+    dude = chars.find_one({"name":name},{"_id":0,"name":0})
+
+    return jsonify(dude)
+
+@app.route('/editsubmit', methods=["POST"])
+def editsubmit():
+    charinfo = request.form
+    post = {}
+    for info in charinfo:
+        print(info)
+        print(charinfo[info])
+        post[info] = charinfo[info]
+
+    name = post['name']
+    print(name)
+
+    edit = chars.find_one_and_update({"name":name},{"$set":post})
+        
+    return "abc"
 
 if __name__ == "__main__":
     app.debug = True
