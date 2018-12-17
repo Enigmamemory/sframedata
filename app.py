@@ -140,7 +140,7 @@ def editchoose():
 
     return jsonify(dude)
 
-@app.route('/editsubmit', methods=["POST"])
+@app.route('/editsubmit/', methods=["POST"])
 def editsubmit():
     charinfo = request.form
     post = {}
@@ -155,6 +155,28 @@ def editsubmit():
     edit = chars.find_one_and_update({"name":name},{"$set":post})
         
     return "abc"
+
+@app.route('/testdelete/')
+def testdelete():
+    return render_template("testdelete.html")
+
+@app.route('/deldbentry/',methods=["POST"])
+def deletefromdb():
+    print(request)
+
+    test = request.form
+    name = test['undefined']
+    
+    print(test)
+    print(name)
+
+    myquery = {"name":name}
+
+    chars.delete_one(myquery)
+
+    message = "Deleted " + name + " from database"
+
+    return message
 
 if __name__ == "__main__":
     app.debug = True
