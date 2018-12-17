@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <title>Edit a Character</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+    <script type="text/javascript" src="/static/editchar.js"></script>
+  </head>
+
+  <body>
+
+    <div>
+      <form id="pickchar" method="post">
+
+	<select class="name" name="name">
+
+	</select>
+	
+	<br>
+	<br>
+	
+	<div id="forminfo">
+
+	</div>
+	
+      </form>
+
+      <br>
+      <br>
+      
+      <button id="charname">Load Traits</button>
+
+      <br>
+      <br>
+      
+      <button id="submitform">Submit Form</button>
+      
+    </div>
+
+  </body>
+  
+</html>

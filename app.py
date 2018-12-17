@@ -66,7 +66,8 @@ def getTwo():
 def getmoveinfo():
 
     minput = request.form["move1"]
-    move = moves.find_one({"input":minput},{"_id":0,"name":0})
+    name = request.form["name1"]
+    move = moves.find_one({"input":minput,"name":name},{"_id":0,"name":0,"input":0})
 
     return jsonify(move)
 
@@ -74,7 +75,8 @@ def getmoveinfo():
 def getmoveinfo2():
 
     minput = request.form["move2"]
-    move = moves.find_one({"input":minput},{"_id":0,"name":0})
+    name = request.form["name2"]
+    move = moves.find_one({"input":minput,"name":name},{"_id":0,"name":0,"input":0})
 
     return jsonify(move)
 
@@ -98,6 +100,29 @@ def DBtestLoad():
         #shownames = ""
     
     return jsonify(names=namelist, count=count)
+
+@app.route("/loadmoves3/", methods=['POST'])
+def loadmoves3():
+    
+    name = request.form["name"]
+    
+    allmoves = moves.find({"name":name},{"_id":0}).sort("input")
+
+    movelist = []
+    
+    #shownames = '<select name="characters">'
+    for move in allmoves:
+        minput = move["input"]
+        movelist.append(minput)
+        #shownames += '<option value="' + name + '">'
+        #shownames += name + "</option>"
+
+    #shownames += "</select>"
+    count = allmoves.retrieved
+    #if count == 0:
+        #shownames = ""
+    
+    return jsonify(moves=movelist, count=count)
 
 @app.route("/loadmoves/", methods=['POST'])
 def loadmoves():
@@ -206,6 +231,10 @@ def addmove():
 def editchar_load():
     return render_template("editchar.html")
 
+@app.route('/editmove/', methods=["GET"])
+def editmove_load():
+    return render_template("editmove.html")
+
 @app.route('/editchoose/', methods=["POST"])
 def editchoose():
     print(request)
@@ -219,6 +248,45 @@ def editchoose():
     dude = chars.find_one({"name":name},{"_id":0,"name":0})
 
     return jsonify(dude)
+
+@app.route('/movechoose/', methods=["POST"])
+def movechoose():
+    print(request)
+
+    test = request.form
+    minput = test['input']
+    name = test['name']
+    print(test)
+    print(minput)
+    print(name)
+    
+    move = moves.find_one({"input":minput,"name":name},{"_id":0,"name":0,"input":0})
+
+    return jsonify(move)
+
+    return "testing editmove function"
+
+@app.route('/movesubmit/', methods=["POST"])
+def movesubmit():
+    moveinfo = request.form
+    post = {}
+    for info in moveinfo:
+        print(info)
+        print(moveinfo[info])
+        post[info] = moveinfo[info]
+
+    
+    name = post['name']
+    minput = post['input']
+    print(name)
+    print(minput)
+    
+
+    edit = moves.find_one_and_update({"name":name,"input":minput},{"$set":post})
+
+    message = "finished editing post with name: " + name + " and input: " + minput
+    
+    return message
 
 @app.route('/editsubmit/', methods=["POST"])
 def editsubmit():
