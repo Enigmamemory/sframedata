@@ -93,7 +93,7 @@ $(function() {
 	
 	$.ajax({
 
-	    url:"/editsubmit",
+	    url:"/editsubmit/",
 	    type: "POST",
 	    data: items,
 	    success: function(response) {
