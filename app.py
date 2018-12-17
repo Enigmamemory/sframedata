@@ -18,6 +18,7 @@ client = MongoClient()
 db = client['test_db']
 
 chars = db['Characters']
+moves = db['Moves']
 
 #may want to rename in the future from posts to something else
 #or I could just use "collection"
@@ -61,6 +62,22 @@ def getTwo():
     
     return jsonify(dude)
 
+@app.route("/getmoveinfo/", methods=['POST'])
+def getmoveinfo():
+
+    minput = request.form["move1"]
+    move = moves.find_one({"input":minput},{"_id":0,"name":0})
+
+    return jsonify(move)
+
+@app.route("/getmoveinfo2/", methods=['POST'])
+def getmoveinfo2():
+
+    minput = request.form["move2"]
+    move = moves.find_one({"input":minput},{"_id":0,"name":0})
+
+    return jsonify(move)
+
 @app.route("/DBtestLoad", methods=['GET'])
 def DBtestLoad():
     #finds the names of all entries
@@ -81,6 +98,52 @@ def DBtestLoad():
         #shownames = ""
     
     return jsonify(names=namelist, count=count)
+
+@app.route("/loadmoves/", methods=['POST'])
+def loadmoves():
+    
+    name = request.form["name1"]
+    
+    allmoves = moves.find({"name":name},{"_id":0}).sort("input")
+
+    movelist = []
+    
+    #shownames = '<select name="characters">'
+    for move in allmoves:
+        minput = move["input"]
+        movelist.append(minput)
+        #shownames += '<option value="' + name + '">'
+        #shownames += name + "</option>"
+
+    #shownames += "</select>"
+    count = allmoves.retrieved
+    #if count == 0:
+        #shownames = ""
+    
+    return jsonify(moves=movelist, count=count)
+
+@app.route("/loadmoves2/", methods=['POST'])
+def loadmoves2():
+    
+    name = request.form["name2"]
+    
+    allmoves = moves.find({"name":name},{"_id":0}).sort("input")
+
+    movelist = []
+    
+    #shownames = '<select name="characters">'
+    for move in allmoves:
+        minput = move["input"]
+        movelist.append(minput)
+        #shownames += '<option value="' + name + '">'
+        #shownames += name + "</option>"
+
+    #shownames += "</select>"
+    count = allmoves.retrieved
+    #if count == 0:
+        #shownames = ""
+    
+    return jsonify(moves=movelist, count=count)
 
 #Button should try to grab data from database and pass it to front end
 
