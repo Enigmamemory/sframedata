@@ -103,6 +103,29 @@ def DBtestLoad():
     
     return jsonify(names=namelist, count=count)
 
+@app.route("/loadtraits/", methods=['POST'])
+def loadtraits():
+    
+    name = request.form["name"]
+    
+    allcextra = cextra.find({"name":name},{"_id":0}).sort("attribute")
+
+    cextralist = []
+    
+    #shownames = '<select name="characters">'
+    for extra in allcextra:
+        attr = extra["attribute"]
+        cextralist.append(attr)
+        #shownames += '<option value="' + name + '">'
+        #shownames += name + "</option>"
+
+    #shownames += "</select>"
+    count = allcextra.retrieved
+    #if count == 0:
+        #shownames = ""
+    
+    return jsonify(traits=cextralist, count=count)
+
 @app.route("/loadmoves3/", methods=['POST'])
 def loadmoves3():
     
@@ -373,12 +396,33 @@ def submitctrait():
     
     cextra.update_one({"name":name},{"$set":atpost},True)
     chars.update_one({"name":name},{"$set":{attr:value}})
-    
-
 
     return "testing attribute submit functionality"
-    
+
+@app.route('/delctraits/')
+def delctraits():
+    return render_template("delctraits.html")
+
+@app.route('/deletectrait/', methods=["POST"])
+def deletectrait():
+    test = request.form
+    trait = test['trait']
+    name = test['name']
+
+    #print(test)
+    #print(minput)
+    #print(name)
+
+    myquery = {"name":name,"attribute":trait}
+
+    chars.update_one({"name":name},{"$unset":{trait:""}})
+    cextra.delete_one(myquery)
+
+    message = "Deleted from " + name + ": trait " + trait + " from database"
+
+    return message
 
 if __name__ == "__main__":
     app.debug = True
     app.run()
+
