@@ -326,6 +326,32 @@ def deletefromdb():
 
     return message
 
+@app.route('/deletemove/')
+def deletemove():
+    return render_template("deletemove.html")
+
+@app.route('/deldbmove/',methods=["POST"])
+def deletemovefromdb():
+    #print(request)
+
+    test = request.form
+    minput = test['input']
+    name = test['name']
+
+    #print(test)
+    #print(minput)
+    #print(name)
+
+    myquery = {"name":name,"input":minput}
+
+    moves.delete_one(myquery)
+
+    message = "Deleted move from " + name + " and input " + minput + " from database"
+    
+    return message
+
+    
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
