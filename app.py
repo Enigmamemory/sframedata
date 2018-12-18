@@ -371,6 +371,8 @@ def deletefromdb():
 
     chars.delete_one(myquery)
     moves.delete_many(myquery)
+    cextra.delete_many(myquery)
+    mextra.delete_many(myquery)
 
     message = "Deleted " + name + " and its moves from database"
 
@@ -395,6 +397,7 @@ def deletemovefromdb():
     myquery = {"name":name,"input":minput}
 
     moves.delete_one(myquery)
+    mextra.delete_many(myquery)
 
     message = "Deleted move from " + name + " and input " + minput + " from database"
     
