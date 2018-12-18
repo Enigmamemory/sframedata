@@ -422,6 +422,30 @@ def deletectrait():
 
     return message
 
+@app.route('/movetraits/')
+def movetraits():
+    return render_template("movetraits.html")
+
+@app.route('/movetraits/submit/', methods=["POST"])
+def submtraits():
+    test = request.form
+    name = test['name']
+    move = test['input']
+    attr = test['attribute']
+    value = test['atvalue']
+
+    atpost = {
+        "name":name,
+        "input":move,
+        "attribute":attr
+    }
+
+    
+    mextra.update_one({"name":name, "input":move},{"$set":atpost},True)
+    moves.update_one({"name":name, "input":move},{"$set":{attr:value}})
+
+    return "testing move attribute submit functionality"
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
