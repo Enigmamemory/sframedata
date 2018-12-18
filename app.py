@@ -126,6 +126,30 @@ def loadtraits():
     
     return jsonify(traits=cextralist, count=count)
 
+@app.route("/loadtraits/moves/", methods=['POST'])
+def loadtraits2():
+
+    name = request.form["name"]
+    move = request.form["input"]
+    
+    allmextra = mextra.find({"name":name,"input":move},{"_id":0}).sort("attribute")
+
+    mextralist = []
+    
+    #shownames = '<select name="characters">'
+    for extra in allmextra:
+        attr = extra["attribute"]
+        mextralist.append(attr)
+        #shownames += '<option value="' + name + '">'
+        #shownames += name + "</option>"
+
+    #shownames += "</select>"
+    count = allmextra.retrieved
+    #if count == 0:
+        #shownames = ""
+    
+    return jsonify(traits=mextralist, count=count)
+
 @app.route("/loadmoves3/", methods=['POST'])
 def loadmoves3():
     
@@ -439,12 +463,36 @@ def submtraits():
         "input":move,
         "attribute":attr
     }
-
     
     mextra.update_one({"name":name, "input":move},{"$set":atpost},True)
     moves.update_one({"name":name, "input":move},{"$set":{attr:value}})
 
     return "testing move attribute submit functionality"
+
+@app.route('/movetraits/delete')
+def delmtraits():
+    return render_template("delmtraits.html")
+
+@app.route('/deletemtrait/', methods=["POST"])
+def deletemtrait():
+    test = request.form
+    trait = test['trait']
+    move = test['input']
+    name = test['name']
+
+    print(trait)
+    print(move)
+    print(name)
+
+    myquery = {"name":name, "input":move, "attribute":trait}
+
+    moves.update_one({"name":name, "input":move},{"$unset":{trait:""}})
+    mextra.delete_one(myquery)
+
+    message = "Deleted from " + name + ": " + move + "'s trait: " + trait + " from database"
+
+    return message
+
 
 if __name__ == "__main__":
     app.debug = True
