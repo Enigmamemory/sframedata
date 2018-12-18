@@ -28,7 +28,8 @@ posts = db.posts
 
 @app.route("/")
 def hello():
-    return "Welcome to Python Flask!"
+    #return "Welcome to Python Flask!"
+    return render_template("homepage.html")
 
 @app.route("/signUp") 
 def signUp():
