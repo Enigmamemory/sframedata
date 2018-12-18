@@ -19,6 +19,8 @@ db = client['test_db']
 
 chars = db['Characters']
 moves = db['Moves']
+cextra = db['CharTraits']
+mextra = db['MoveTraits']
 
 #may want to rename in the future from posts to something else
 #or I could just use "collection"
@@ -351,6 +353,30 @@ def deletemovefromdb():
     
     return message
 
+@app.route('/chartraits/')
+def chartraits():
+    return render_template("chartraits.html")
+
+@app.route('/ctraitsubmit/', methods=["POST"])
+def submitctrait():
+
+    test = request.form
+    name = test['name']
+    attr = test['attribute']
+    value = test['atvalue']
+
+    atpost = {
+        "name":name,
+        "attribute":attr
+    }
+
+    
+    cextra.update_one({"name":name},{"$set":atpost},True)
+    chars.update_one({"name":name},{"$set":{attr:value}})
+    
+
+
+    return "testing attribute submit functionality"
     
 
 if __name__ == "__main__":
