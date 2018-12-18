@@ -321,8 +321,9 @@ def deletefromdb():
     myquery = {"name":name}
 
     chars.delete_one(myquery)
+    moves.delete_many(myquery)
 
-    message = "Deleted " + name + " from database"
+    message = "Deleted " + name + " and its moves from database"
 
     return message
 
